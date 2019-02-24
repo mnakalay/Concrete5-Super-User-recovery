@@ -29,11 +29,11 @@ use Concrete\Core\Support\Facade\Application;
 use Concrete\Core\Support\Facade\Url as URL;
 use Exception;
 
-if (empty($app)) {
+if (!is_object($app)) {
     $app = Application::getFacadeApplication();
 }
 
-$request = Request::getInstance();
+$request = $app->make(Request::class);
 $pass = $app->make('helper/text')->alphanum((string) $request->request('p'));
 $pass = trim($pass);
 if (empty($pass)
