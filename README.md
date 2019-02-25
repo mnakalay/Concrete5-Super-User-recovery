@@ -16,8 +16,7 @@ Whoever connects as the Super User has to know exactly what they are doing becau
 
 I know many web professionals who do NOT give their client the Super User credentials because they don't want them to break stuff.
 
-**This is the only legitimate reason I know and can think of for not giving you Super User access.
-**
+**This is the only legitimate reason I know and can think of for not giving you Super User access.**
 Although a legitimate reason, it is only acceptable if the web professional is ready to hand the Super User over to the site owner, at no extra cost, **provided the site owner understands the responsibility**.
 
 Don't ask for control over the Super User, break stuff and then expect the developer to fix it for free or even blame them for the havoc you wreaked and the misery you brought upon yourself.
@@ -81,7 +80,7 @@ Open the file for modification and, at the top, where it says
 
 Put your own security password in place of `YourPasswordHere` and save. **Your new password can only use numbers and letters and no spaces**. So if your new password is *myNewPassword*, you will have
 
-    $authorizationPassword = "myNewPassword";
+    $authorizationPassword = "mySafetyPassword";
 
 **This is not your new Super User password, it is only a security password to make sure others can't use this tool while you are working with it.**
 
@@ -93,13 +92,17 @@ Open the file `application\bootstrap\app.php` for modification and, at the top, 
 
 Now you're ready to go. **Visit any page on your website by adding this at the end of the URL**:
 
-    ?p=myNewPassword
+    ?p=mySafetyPassword
 
 If you visit your home page for instance you will use **https://www.yourwebsite.com?p=myNewPassword**
 
 There you will be greeted by a form and an explanatory message describing your situation and the steps to follow. Just follow the steps.
 
+## Extra better-safe-than-sorry steps after recovery
+
 Once you done, I strongly suggest you delete the recovery tool from your server. To do so
 
 1. Remove the code added to `application\bootstrap\app.php`
 2. Delete the file c5-su-recovery.php
+3. Login as the Super User and change your password again just to be sure
+4. Remove any user accounts you don't need from your website
