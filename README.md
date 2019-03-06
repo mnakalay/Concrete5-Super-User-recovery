@@ -78,13 +78,13 @@ Open the file for modification and, at the top, where it says
 
     $authorizationPassword = "YourPasswordHere";
 
-Put your own security password in place of `YourPasswordHere` and save. **Your new password can only use numbers and letters and no spaces**. So if your new password is *myNewPassword*, you will have
+Put your own security password in place of `YourPasswordHere` and save. **Your new password can only use numbers and letters and no spaces**. So if your new password is *mySafetyPassword*, you will have
 
     $authorizationPassword = "mySafetyPassword";
 
 **This is not your new Super User password, it is only a security password to make sure others can't use this tool while you are working with it.**
 
-**And please make it something better than "myNewPassword"!!!**
+**And please make it something better than "mySafetyPassword"!!!**
 
 Open the file `application\bootstrap\app.php` for modification and, at the top, add the line
 
@@ -94,7 +94,7 @@ Now you're ready to go. **Visit any page on your website by adding this at the e
 
     ?p=mySafetyPassword
 
-If you visit your home page for instance you will use **https://www.yourwebsite.com?p=myNewPassword**
+If you visit your home page for instance you will use **https://www.yourwebsite.com?p=mySafetyPassword**
 
 There you will be greeted by a form and an explanatory message describing your situation and the steps to follow. Just follow the steps.
 
