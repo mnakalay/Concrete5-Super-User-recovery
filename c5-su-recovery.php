@@ -34,8 +34,12 @@ if (!is_object($app)) {
 }
 
 $request = $app->make(Request::class);
+
+// get the security password and ensure it only contains letters and numbers
 $pass = $app->make('helper/text')->alphanum((string) $request->request('p'));
 $pass = trim($pass);
+
+// check we have the correct password or exit
 if (empty($pass)
     || $pass !== $authorizationPassword
     || md5($pass) !== md5($authorizationPassword)
@@ -185,12 +189,27 @@ class Recovery extends Controller
 
     public function processRequest()
     {
+        // let's check we're dealing with C5 8 and above and we have the information we need
         $this->validate();
+
         if ($this->task === 'update_super_user') {
-            return $this->updateUser();
+            $result = $this->updateUser();
         } elseif ($this->task === 'create_super_user') {
-            return $this->createUser();
+            $result = $this->createUser();
         }
+
+        // if password reset hash values are still in the DB for the Super User
+        // They could be used by a third party to take control back
+        // Let's delete them
+        $this->removeHashes();
+
+        return $result;
+    }
+
+    private function removeHashes()
+    {
+        $sql = 'DELETE FROM UserValidationHashes WHERE uID=?';
+        $this->db->executeQuery($sql, [USER_SUPER_ID]);
     }
 
     private function updateUser()
@@ -201,8 +220,10 @@ class Recovery extends Controller
         }
 
         if (empty($this->email) && empty($this->username)) {
+            // only changing the password
             $result = $ui->changePassword($this->password);
         } else {
+            // changing the password and optionally the username and email
             $uData = [
                         'uPassword' => $this->password,
                         'uPasswordConfirm' => $this->passwordConfirm,
@@ -260,6 +281,7 @@ class Recovery extends Controller
     }
 }
 
+// We got here becase the security password provided was correct
 $error = false;
 $success = false;
 $uEmail = false;
@@ -269,6 +291,7 @@ $submit = (string) $request->request('submit');
 $taskManager = new Recovery($request, $app);
 
 try {
+    // the form was submitted so let's process
     if (!empty($submit)) {
         $result = $taskManager->processRequest();
         $success = $result['success'];
@@ -277,6 +300,7 @@ try {
     $error = $ex->getMessage();
 }
 
+// We're loading the rest of the page so let's check what's going on with the Super User
 $superuser = $taskManager->getUser();
 $superuser = !$superuser ? UserInfo::getByID(USER_SUPER_ID) : $superuser;
 
@@ -297,6 +321,7 @@ if (is_object($superuser) && $superuser->getUserID() === USER_SUPER_ID) {
     $startingMsg = t("%sIt seems the Super User has been deleted. Let's create a new one.%s%s", '<strong><p>', '</p>', $adminMsg . '</strong>');
 }
 
+// from here we're generating the page and the form
 ob_start();
 ?>
 
