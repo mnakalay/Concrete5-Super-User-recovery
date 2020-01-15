@@ -74,6 +74,10 @@ After you recovered your Super User and you followed the steps above, it is high
 
 **Download the file c5-su-recovery.php** and put it on your server inside `application/bootstrap`
 
+We don't want just anybody accessing your website to have access to this tool so we're going to protect it with a password.
+
+**This is not your new Super User password, it is only a security password to make sure others can't use this tool while you are working with it.**
+
 Open the file for modification and, at the top, where it says
 
     $authorizationPassword = "YourPasswordHere";
@@ -81,8 +85,6 @@ Open the file for modification and, at the top, where it says
 Put your own security password in place of `YourPasswordHere` and save. **Your new password can only use numbers and letters and no spaces**. So if your new password is *mySafetyPassword*, you will have
 
     $authorizationPassword = "mySafetyPassword";
-
-**This is not your new Super User password, it is only a security password to make sure others can't use this tool while you are working with it.**
 
 **And please make it something better than "mySafetyPassword"!!!**
 
