@@ -78,7 +78,7 @@ class Recovery extends Controller
         $this->username = trim((string) $this->request->request('uName'));
         $this->username = preg_replace('/ +/', ' ', $this->username);
         $this->task = (string) $this->request->request('task');
-        $this->pass = (string) $this->request->request('pass');
+        $this->pass = (string) $this->request->request('p');
         $this->token = (string) $this->request->request('ccm_token');
 
         $this->db = $app->make('database')->connection();
@@ -553,7 +553,7 @@ ob_start();
                 <label for="uPasswordConfirm"><?php echo t("Confirm Password") ?>&nbsp;<span class="required">(<?php echo t("Required") ?>)</span></label>
                 <input type="password" name="uPasswordConfirm" />
                 <input type="hidden" name="task" value="<?=$task?>" />
-                <input type="hidden" name="pass" value="<?=$pass?>" />
+                <input type="hidden" name="p" value="<?=$pass?>" />
                 <?php
                 $token = $app->make('Concrete\Core\Validation\CSRF\Token');
                 $token->output($task . $pass);
